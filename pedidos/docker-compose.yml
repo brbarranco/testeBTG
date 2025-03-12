@@ -1,0 +1,66 @@
+version: '3.8'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    environment:
+      MYSQL_DATABASE: btgpactual_pedidosdb
+      MYSQL_ROOT_PASSWORD: admin
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    networks:
+      - app-network
+
+  app:
+    image: maven:3.9-amazoncorretto-23
+    container_name: springboot-app
+    command: >
+      /bin/bash -c "
+      mvn clean package -DskipTests &&
+      cp target/*.jar app.jar &&
+      java -jar app.jar"
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - '8080:8080'
+    environment:
+      - MYSQL_URL=jdbc:mysql://db:3306/btgpactual_pedidosdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=admin
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin
+    depends_on:
+      db:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
