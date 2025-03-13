@@ -18,10 +18,11 @@ https://docs.docker.com/compose/<br/>
 https://docs.docker.com/compose/how-tos/startup-order/
 
 
-Spring - RabbitMQ - <br/>
-https://docs.spring.io/spring-amqp/reference/amqp/receiving-messages/batch.html<br/>
-https://docs.spring.io/spring-amqp/reference/amqp/message-converters.html#json-message-converter<br/>
+Spring RabbitMQ - <br/>
+https://docs.spring.io/spring-amqp/reference/amqp/receiving-messages/batch.html <br/>
+https://docs.spring.io/spring-amqp/reference/amqp/message-converters.html#json-message-converter <br/>
 https://docs.spring.io/spring-amqp/reference/sample-apps.html#spring-rabbit-json
+
 ---
 ### Técnologias utilizadas
 
@@ -39,6 +40,7 @@ Log4j
 1 - Executar o comando ``docker compose up --build``;
 
 Container em execução:
+
 ![img.png](doc/container.png)
 
 2 - Como validar a subida do container mysql:
