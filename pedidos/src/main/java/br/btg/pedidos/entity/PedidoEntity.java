@@ -9,30 +9,54 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-@Getter
-@NoArgsConstructor
 @Entity
 @Table(name = "pedidos")
 public class PedidoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pedido_id")
-    private Long pedidoId;
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name = "cliente_id")
-    private Long clienteId;
+    @Column(name = "codigo_pedido")
+    private Long codigoPedido;
+
+    @Column(name = "codigo_cliente")
+    private Long codigoCliente;
 
     @Column(name = "valor_total_pedido")
     private BigDecimal valorTotalPedido;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ItemPedidoEntity> itens;
 
-    public PedidoEntity(Long pedidoId, Long clienteId, BigDecimal valorTotalPedido, List<ItemPedidoEntity> itens) {
-        this.pedidoId = pedidoId;
-        this.clienteId = clienteId;
+    public PedidoEntity(Long codigoPedido, Long codigoCliente, BigDecimal valorTotalPedido, List<ItemPedidoEntity> itens) {
+        this.codigoPedido = codigoPedido;
+        this.codigoCliente = codigoCliente;
         this.valorTotalPedido = valorTotalPedido;
         this.itens = itens;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getCodigoPedido() {
+        return codigoPedido;
+    }
+
+    public Long getCodigoCliente() {
+        return codigoCliente;
+    }
+
+    public BigDecimal getValorTotalPedido() {
+        return valorTotalPedido;
+    }
+
+    public List<ItemPedidoEntity> getItens() {
+        return itens;
+    }
+
+    public PedidoEntity() {
     }
 }

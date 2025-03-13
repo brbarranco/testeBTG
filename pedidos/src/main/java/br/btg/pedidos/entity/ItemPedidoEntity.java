@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "item_pedido")
 public class ItemPedidoEntity {
@@ -28,13 +25,44 @@ public class ItemPedidoEntity {
     @Column(name = "preco")
     private BigDecimal preco;
 
+    @Column(name = "codigo_pedido")
+    private Long codigoPedido;
+
     @ManyToOne
-    @JoinColumn(name = "pedido_id", nullable = false)
+    @JoinColumn(name = "codigo_pedido",referencedColumnName = "codigo_pedido", insertable = false, updatable = false)
     private PedidoEntity pedido;
 
-    public ItemPedidoEntity(String produto, Integer quantidade, BigDecimal preco) {
+    public ItemPedidoEntity(String produto, Integer quantidade, BigDecimal preco, Long codigoPedido) {
         this.produto = produto;
         this.quantidade = quantidade;
         this.preco = preco;
+        this.codigoPedido = codigoPedido;
+    }
+
+    public ItemPedidoEntity() {
+    }
+
+    public Long getItemPedidoId() {
+        return itemPedidoId;
+    }
+
+    public String getProduto() {
+        return produto;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public BigDecimal getPreco() {
+        return preco;
+    }
+
+    public Long getCodigoPedido() {
+        return codigoPedido;
+    }
+
+    public PedidoEntity getPedido() {
+        return pedido;
     }
 }
